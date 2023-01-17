@@ -95,13 +95,16 @@ const setToken = async (user, res = false) => {
     if (user.idUser) {
         let date = new Date();
         let expire = new Date(date.getTime() + tiempoActivo * 60 * 1000);
-        date = date.toLocaleString("en-US").replace(',', '');
-        expire = expire.toLocaleString("en-US").replace(',', '');
+        date = date.toLocaleString("en-US",{hour12: false}).replace(',', '');
+        expire = expire.toLocaleString("en-US",{hour12: false}).replace(',', '');
 
-        console.log(`fechas`,date, expire)
+       
+
+        console.log(`www`,date, expire)
         const po = await data.connectToDatabase();
         if (res) {
             // CREA UNA NUEVA SESION
+            console.log(`bsssss,`, user);
             const token = getToken(user.idUser, user.Usuario, user.UserName, user.IdRol, user.Rol, user.IP, user.subscription);
             // console.log(token);
             const rest = await po.request()
@@ -112,6 +115,7 @@ const setToken = async (user, res = false) => {
                 .input('IP', user.IP)
                 .input('Type', 'WEB')
                 .execute('web.cambiarTokenSession')
+                // console.log(`sdssssssss`,rest)
                 .then((result) => {
                     res.send({
                         auth: true,
