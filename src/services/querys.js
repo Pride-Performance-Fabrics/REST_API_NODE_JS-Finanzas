@@ -57,6 +57,50 @@ const executeQuery = async(query, req, res = null) => {
 }
 
 
+
+const executeProcedure = async(prosedure, req, res, inputs = []) => {
+    console.log('***************************************************')
+    console.log(prosedure, (new Date()).toLocaleTimeString(),inputs)
+    try {
+        const tokenInfo = crypterService.verifyJWK(req);
+        if (tokenInfo.auth) {
+            const pool = await data.connectToDatabase();
+            const reques = await pool.request()
+            inputs.forEach(input => {
+                reques.input(input.key, input.value)
+            });
+            reques.execute(prosedure)
+            .then(result => {
+                    // console.log({inputs, result})
+                    // console.log(result.recordset)
+                    res.status(200).send({ data: result.recordset, token: tokenInfo.token });
+                    res.end();
+                })
+                .catch(error => {
+                    console.error({error, token: tokenInfo.token, prosedure, inputs, Fecha: new Date() })
+                    res.send({ 'error': error});
+                    res.end();
+                });
+        } else {
+            console.error({auth: false, token: tokenInfo.token, prosedure, inputs, Fecha: new Date()})
+            res.send({
+                auth: false
+            })
+            res.end()
+        }
+    } catch (error) {
+        console.error({error, prosedure, inputs, Fecha: new Date()});
+        res.send({
+            auth: false,
+            error: error
+        })
+        res.end()
+    }
+}
+
+
+
 module.exports = {
-    executeQuery
+    executeQuery,
+    executeProcedure
 };

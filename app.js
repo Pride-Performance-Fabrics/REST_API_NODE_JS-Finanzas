@@ -7,7 +7,9 @@ const cors = require('cors');
 
 //***************** Rutas de Routers *****************/
 const usuarioRouter = require('./src/routers/Usuarios/usuarioRouter');
-const rolesRouter = require('./src/routers/Roles/rolesRouter')
+const rolesRouter = require('./src/routers/Roles/rolesRouter');
+const permisosRouter = require('./src/routers/Usuarios/PermisosRouter');
+const sesiones = require('./src/routers/Usuarios/sesionesRouter');
 
 
 const app = express();
@@ -25,6 +27,12 @@ app.use('/users', usuarioRouter);
 
 //****************************** Roles ******************************/
 app.use('/roles',rolesRouter);
+
+//****************************** Menu ******************************/
+app.use('/permisos',permisosRouter);
+
+//****************************** Sesiones ******************************/
+app.use('/sesiones', sesiones);
 
 app.listen(process.env.PORT, async () => {
     console.log('EL SERVIDOR ESTA ESCUCHANDO EN EL PUERTO:', process.env.PORT);
