@@ -4,8 +4,9 @@ const jwk = require('jsonwebtoken')
 const querys = require("../../services/querys");
 
 router.get('/:idUser', async(req, res) => {
+ console.log(`entro aqui en get`)
             const resp = await querys.executeQuery(`SELECT idUser, ISNULL(PermisosWeb, '') AS PermisosWeb from Finanzas.dbo.Users WHERE idUser = '${req.params.idUser}'`, req);
-            // console.log( { permisos: resp.data[0].PermisosWeb } )
+            console.log( { permisos: resp.data[0].PermisosWeb } )
             if( resp.data[0].PermisosWeb.length > 0 ){
                 const numMenus = await querys.executeQuery(`SELECT MAX(IdContenedor) as numMenus FROM Finanzas.dbo.MenuWeb`, req);
                 // console.log(resp)

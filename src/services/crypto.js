@@ -100,7 +100,7 @@ const setToken = async (user, res = false) => {
 
        
 
-        console.log(`www`,date, expire)
+        // console.log(`www`,date, expire)
         const po = await data.connectToDatabase();
         if (res) {
             // CREA UNA NUEVA SESION

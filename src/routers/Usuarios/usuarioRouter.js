@@ -10,7 +10,12 @@ const jwk = require("jsonwebtoken");
 // *** Obtener la lista de todos los usuarios ***
 router.get("/", async (req, res) => {
     querys.executeQuery(
-        `SELECT * FROM Finanzas.dbo.Users`,
+        // `SELECT * FROM Finanzas.dbo.Users`,
+        `SELECT U.idUser, U.Usuario, U.UserName, U.Mail,
+        R.IdRol, R.Rol, S.IdStatus, S.StatusCategory, S.StatusName
+        from Finanzas.dbo.Users as U
+        INNER JOIN dbo.Roles R on R.IdRol = U.IdRol
+        INNER JOIN dbo.Status S on S.IdStatus = U.Status`,
         req,
         res
     );
