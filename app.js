@@ -9,7 +9,10 @@ const cors = require('cors');
 const usuarioRouter = require('./src/routers/Usuarios/usuarioRouter');
 const rolesRouter = require('./src/routers/Roles/rolesRouter');
 const permisosRouter = require('./src/routers/Usuarios/PermisosRouter');
-const sesiones = require('./src/routers/Usuarios/sesionesRouter');
+const sesionesRouter = require('./src/routers/Usuarios/sesionesRouter');
+const statusRouter = require('./src/routers/Estados/StatusRouter');
+const menuRouter = require('./src/routers/Menu/menuRouter');
+const permisosNivelRouter = require('./src/routers/Usuarios/PermisosNivelRouter');
 
 
 const app = express();
@@ -32,7 +35,17 @@ app.use('/roles',rolesRouter);
 app.use('/permisos',permisosRouter);
 
 //****************************** Sesiones ******************************/
-app.use('/sesiones', sesiones);
+app.use('/sesiones', sesionesRouter);
+
+//****************************** EStados ******************************/
+app.use('/status',statusRouter);
+
+//****************************** Menu ******************************/
+app.use('/menu',menuRouter);
+
+//****************************** Permisos Niveles Menu ******************************/
+app.use('/permisosNivel', permisosNivelRouter);
+
 
 app.listen(process.env.PORT, async () => {
     console.log('EL SERVIDOR ESTA ESCUCHANDO EN EL PUERTO:', process.env.PORT);
