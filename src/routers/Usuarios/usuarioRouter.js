@@ -11,7 +11,7 @@ const jwk = require("jsonwebtoken");
 router.get("/", async (req, res) => {
     querys.executeQuery(
         // `SELECT * FROM Finanzas.dbo.Users`,
-        `SELECT U.idUser, U.Usuario, U.UserName, U.Mail,
+        `SELECT U.idUser, U.idPersonal, U.Usuario, U.UserName, U.Mail, 
         R.IdRol, R.Rol, S.IdStatus, S.StatusCategory, S.StatusName
         from Finanzas.dbo.Users as U
         INNER JOIN dbo.Roles R on R.IdRol = U.IdRol
