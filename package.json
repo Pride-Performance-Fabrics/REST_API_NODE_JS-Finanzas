@@ -31,6 +31,7 @@
     "mssql": "^9.0.1",
     "mssql-session-store": "^1.0.0",
     "node-windows": "^1.0.0-beta.8",
+    "nodemailer": "^6.9.0",
     "nodemon": "^2.0.20",
     "sequelize": "^6.28.0",
     "tedious": "^15.1.2"
