@@ -13,7 +13,7 @@ const sesionesRouter = require('./src/routers/Usuarios/sesionesRouter');
 const statusRouter = require('./src/routers/Estados/StatusRouter');
 const menuRouter = require('./src/routers/Menu/menuRouter');
 const permisosNivelRouter = require('./src/routers/Usuarios/PermisosNivelRouter');
-
+const emailRouter = require('./src/routers/Herramientas/EnviarMailRouter');
 
 const app = express();
 
@@ -46,6 +46,9 @@ app.use('/menu',menuRouter);
 //****************************** Permisos Niveles Menu ******************************/
 app.use('/permisosNivel', permisosNivelRouter);
 
+
+//****************************** Envio de Mails ******************************/
+app.use('/email', emailRouter)
 
 app.listen(process.env.PORT, async () => {
     console.log('EL SERVIDOR ESTA ESCUCHANDO EN EL PUERTO:', process.env.PORT);

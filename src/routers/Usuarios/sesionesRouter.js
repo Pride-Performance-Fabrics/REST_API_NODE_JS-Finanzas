@@ -6,7 +6,7 @@ const crypterService = require('../../services/crypto');
 
 // OBTENER EL REGISTRO DE SESSIONES DE USUARIOS
 router.get("/", async (req, res) => {
-    querys.executeQuery(`SELECT * FROM [Finanzas].[dbo].[vta.sesiones] order by IdSession desc`, req, res);
+    querys.executeQuery(`SELECT * FROM Finanzas.dbo.vta_Sessiones order by IdSession desc`, req, res);
 });
 
 // CAMBIA LA FECHA DE VENCIMIENTO EN CASO DE CIERRE DE SESSION VOLUNTARIA
