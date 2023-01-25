@@ -137,18 +137,25 @@ router.post("/login", async (req, res) => {
 // *** CREAR UN NUEVO USUARIO *** 
 
 router.post("/", async (req, res) => {
+  var PasswordDecrypted = cryptoJS.AES.decrypt(req.body.Password, "finazas2023").toString(cryptoJS.enc.Utf8);
+
+  console.log(PasswordDecrypted)
   querys.executeQuery(
     `INSERT INTO Finanzas.dbo.Users (
+                          idPersonal,
                           Usuario, 
-                          UserName, 
+                          UserName,
+                          PasswordN, 
                           Password, 
                           Mail, 
                           Status, 
                           IdRol
                           ) VALUES (
+                          '${req.body.idPersonal}',
                           '${req.body.Usuario}', 
-                          '${req.body.UserName}', 
-                          '${req.body.Password}', 
+                          '${req.body.UserName}',
+                          '${req.body.PasswordN}', 
+                          '${PasswordDecrypted}', 
                           '${req.body.Mail}', 
                           ${req.body.Status}, 
                           ${req.body.IdRol}
@@ -193,7 +200,8 @@ router.get("/userIsAuth", (req, res, next) => {
 router.put("/", async (req, res) => {
   querys.executeQuery(
     `UPDATE Finanzas.dbo.Users 
-      SET Usuario = '${req.body.Usuario}', 
+      SET idPersonal = '${req.body.idPersonal}',
+      Usuario = '${req.body.Usuario}', 
       UserName = '${req.body.UserName}',
       Mail = '${req.body.Mail}', 
       Status = ${req.body.Status}, 
