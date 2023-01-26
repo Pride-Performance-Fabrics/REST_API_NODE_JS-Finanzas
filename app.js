@@ -15,6 +15,15 @@ const menuRouter = require('./src/routers/Menu/menuRouter');
 const permisosNivelRouter = require('./src/routers/Usuarios/PermisosNivelRouter');
 const emailRouter = require('./src/routers/Herramientas/EnviarMailRouter');
 
+//***************** Rutas de Routers Finanzas *****************/
+
+const planCuentasRouter = require('./src/routers/Finanzas/PlanCuentas/planCuentasRouter');
+const subTypeRouter = require('./src/routers/Finanzas/PlanCuentas/subTypeRouter');
+const typeRouter = require('./src/routers/Finanzas/PlanCuentas/typeRouter');
+const currencyRouter = require('./src/routers/Generales/Currency/currencyRouter')
+
+
+
 const app = express();
 
 app.use(cors({ origin: true, credentials: false }));
@@ -49,6 +58,13 @@ app.use('/permisosNivel', permisosNivelRouter);
 
 //****************************** Envio de Mails ******************************/
 app.use('/email', emailRouter)
+
+
+//****************************** Finanzas ******************************/
+app.use('/finanzas/planCuentas', planCuentasRouter)
+app.use('/finanzas/subTypes', subTypeRouter)
+app.use('/finanzas/types', typeRouter)
+app.use('/finanzas/currency', currencyRouter)
 
 app.listen(process.env.PORT, async () => {
     console.log('EL SERVIDOR ESTA ESCUCHANDO EN EL PUERTO:', process.env.PORT);
