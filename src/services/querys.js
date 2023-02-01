@@ -99,8 +99,49 @@ const executeProcedure = async(prosedure, req, res, inputs = []) => {
 }
 
 
+const executeProcedureWithOutRes = async(prosedure, req, inputs = []) => {
+    console.log('***************************************************')
+    console.log(prosedure, (new Date()).toLocaleTimeString(),inputs)
+
+    let rest = {}
+    try {
+        const tokenInfo = crypterService.verifyJWK(req);
+        if (tokenInfo.auth) {
+            const pool = await data.connectToDatabase();
+            const reques = await pool.request()
+            inputs.forEach(input => {
+                reques.input(input.key, input.value)
+            });
+            const a = await reques.execute(prosedure)
+            .then(result => {
+                    // console.log({result})
+                    // console.log(result.recordset)
+                    rest = result.recordset;
+                    // res.status(200).send({ data: result.recordset, token: tokenInfo.token });
+                    // res.end();
+                    return rest;
+                })
+                .catch(error => {
+                    console.error({error, token: tokenInfo.token, prosedure, inputs, Fecha: new Date() })
+                    rest = {error};
+                    return {error};
+                });
+                console.log(a)
+                return a;
+        } else {
+            console.error({auth: false, token: tokenInfo.token, prosedure, inputs, Fecha: new Date()})
+            return null;
+        }
+    } catch (error) {
+        console.error({error, prosedure, inputs, Fecha: new Date()});
+        return null;
+    }
+}
+
+
 
 module.exports = {
     executeQuery,
-    executeProcedure
+    executeProcedure,
+    executeProcedureWithOutRes
 };
