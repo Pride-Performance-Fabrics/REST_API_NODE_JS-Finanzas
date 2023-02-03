@@ -226,7 +226,7 @@ router.put("/password", async (req, res) => {
 // *** OBTENER TODOS LOS dbo.User con su ID, UserName, Usuario *** 
 router.get("/seleccionUsuarios/", async (req, res) => {
   querys.executeQuery(
-    "SELECT idUser, Usuario, UserName, Mail, IdRol from Finanzas.dbo.Users where Status = 82",
+    "SELECT idUser, Usuario, UserName, Mail, IdRol from Finanzas.dbo.Users where Status = 1",
     req,
     res
   );
