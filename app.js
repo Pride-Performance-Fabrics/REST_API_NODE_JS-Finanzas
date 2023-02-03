@@ -23,6 +23,9 @@ const typeRouter = require('./src/routers/Finanzas/PlanCuentas/typeRouter');
 const currencyRouter = require('./src/routers/Generales/Currency/currencyRouter')
 
 
+//***************** Rutas de Routers GENERALES*****************/
+
+const accesosWebRouter = require('./src/routers/Accesos/accesosRouter')
 
 const app = express();
 
@@ -65,6 +68,12 @@ app.use('/finanzas/planCuentas', planCuentasRouter)
 app.use('/finanzas/subTypes', subTypeRouter)
 app.use('/finanzas/types', typeRouter)
 app.use('/finanzas/currency', currencyRouter)
+
+//****************************** Accesos ******************************/
+
+app.use('/accesos', accesosWebRouter)
+
+
 
 app.listen(process.env.PORT, async () => {
     console.log('EL SERVIDOR ESTA ESCUCHANDO EN EL PUERTO:', process.env.PORT);
