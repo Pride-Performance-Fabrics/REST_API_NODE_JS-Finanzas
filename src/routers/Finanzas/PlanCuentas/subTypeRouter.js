@@ -9,7 +9,7 @@ const cryptoJS = require('crypto-js');
 
 
 router.get("/", async (req, res) => {
-    querys.executeQuery(`SELECT * FROM Finanzas.dbo.AccountSubType order by IdSubType ASC`, req, res);
+    querys.executeQuery(`SELECT * FROM Finanzas.dbo.AccountSubType order by Id ASC`, req, res);
 });
 
 router.get("/ultimaCuenta/:Id/:IdSubType", async (req, res) => {
@@ -28,7 +28,7 @@ router.get("/ultimaCuenta/:Id/:IdSubType", async (req, res) => {
 
 
 router.get("/tipos", async (req, res) => {
-    querys.executeQuery(`SELECT * FROM Finanzas.dbo.vta_AccountSubType order by IdSubType ASC`, req, res);
+    querys.executeQuery(`SELECT * FROM Finanzas.dbo.vta_AccountSubType order by Id ASC`, req, res);
 });
 
 
@@ -45,25 +45,21 @@ router.post("/", async(req, res) =>{
                               '${req.body.SubType}', 
                               '${req.body.Description}',
                               ${req.body.IdType}
-        ) SELECT TOP(1) * FROM Finanzas.dbo.AccountSubType ORDER BY IdSubType DESC`,
+        ) SELECT TOP(1) * FROM Finanzas.dbo.AccountSubType ORDER BY Id DESC`,
         req,
         res
       );
 })
 
 router.put('/', async(req,res) =>{
+    console.log(req.body)
     querys.executeQuery(
-        `INSERT INTO Finanzas.dbo.AccountSubType(
-                              IdSubType,
-                              SubType, 
-                              Description,
-                              IdType
-                              ) VALUES (
-                              ${req.body.IdSubType},
-                              '${req.body.SubType}', 
-                              '${req.body.Description}',
-                              ${req.body.IdType}
-        ) SELECT TOP(1) * FROM Finanzas.dbo.AccountSubType ORDER BY IdSubType DESC`,
+        `UPDATE dbo.AccountSubType SET 
+            IdSubType = ${req.body.IdSubType},
+            SubType = '${req.body.SubType}', 
+            Description = '${req.body.Description}',
+            IdType =  ${req.body.IdTy}
+        WHERE Id = ${req.body.Id}`,
         req,
         res
       );

@@ -10,7 +10,7 @@ const cryptoJS = require('crypto-js');
 
 router.get("/", async (req, res) => {
     console.log("entro aqui")
-    querys.executeQuery(`SELECT * FROM Finanzas.dbo.vta_CharAccount order by IdAccount ASC`, req, res);
+    querys.executeQuery(`SELECT * FROM Finanzas.dbo.vta_CharAccount order by Id ASC`, req, res);
 });
 
 router.get("/accounts", async (req, res) => {
@@ -81,8 +81,8 @@ router.post("/", async(req, res) =>{
             value: req.body.SubType
         },
         {
-            key: "idContenedorAccount",
-            value: req.body.idContenedorAccount
+            key: "IdContenedorAccount",
+            value: req.body.IdContenedorAccount
         },
         {
             key: "IdUser",
