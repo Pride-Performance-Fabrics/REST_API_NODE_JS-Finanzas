@@ -47,6 +47,7 @@ router.get("/AccessGroup", async(req, res) =>{
                     IdMenuMenu: modulo.IdMenu,
                     Menu: modulo.Menu,
                     URL: modulo.URL,
+                    Icon: modulo.Icon,
                     Accesos: ag.data.filter(i => i.IdMenu === modulo.IdMenu).map(i =>{
                         return{
                             IdAcceso: i.IdAcceso,
@@ -64,6 +65,13 @@ router.get("/AccessGroup", async(req, res) =>{
 
     res.end()
 })
+
+// //******************** CAMBIAR LOS ACCESOS DE UN USUARIO ****/
+
+router.put("/cambiarAccesos", async (req, res) => {
+    const resp = await querys.executeQuery(`UPDATE Finanzas.dbo.Users SET Accesos = '${req.body.Accesos}' WHERE idUser = ${req.body.idUser}`, req);
+    querys.executeQuery(`SELECT idUser, Accesos from Finanzas.dbo.Users WHERE idUser = ${req.body.idUser}`, req, res);
+});
 module.exports = router;
 
 
