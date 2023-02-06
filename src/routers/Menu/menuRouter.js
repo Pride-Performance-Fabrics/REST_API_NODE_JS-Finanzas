@@ -69,5 +69,48 @@ router.get('/', async(req, res) => {
     querys.executeQuery(`SELECT * FROM Finanzas.dbo.Vta_MenuWeb`, req, res);
 });
 
+router.post("/IUMenu", async (req, res) => {
+    const inputs = [
+        {
+            key: "IdMenu",
+            value: req.body.IdMenu
+        },
+        {
+            key: "Menu",
+            value: req.body.Menu
+        },
+        {
+            key: "Icon",
+            value: req.body.Icon
+        },
+        {
+            key: "IconApp",
+            value: req.body.IconApp
+        },
+        {
+            key: "URL",
+            value: req.body.URL
+        },
+        {
+            key: "MenuWeb",
+            value: req.body.MenuWeb
+        },
+        {
+            key: "IdContenedor",
+            value: req.body.IdContenedor
+        },
+        {
+            key: "Orden",
+            value: req.body.Orden
+        },
+        {
+            key: "ActivoAPP",
+            value: req.body.ActivoAPP
+        },
+       
+    ]
+    querys.executeProcedure(`FINANZAS.web.IUMenu`, req, res, inputs);
+});
+
 
 module.exports = router;
