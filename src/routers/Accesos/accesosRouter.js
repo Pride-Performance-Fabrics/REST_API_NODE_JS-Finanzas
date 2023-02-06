@@ -69,7 +69,8 @@ router.get("/AccessGroup", async(req, res) =>{
 // //******************** CAMBIAR LOS ACCESOS DE UN USUARIO ****/
 
 router.put("/cambiarAccesos", async (req, res) => {
-    const resp = await querys.executeQuery(`UPDATE Finanzas.dbo.Users SET Accesos = '${req.body.Accesos}' WHERE idUser = ${req.body.idUser}`, req);
+    console.log(req.body)
+    const resp = await querys.executeQuery(`UPDATE Finanzas.dbo.Users SET Accesos = '${req.body.accesos}' WHERE idUser = ${req.body.idUser}`, req);
     querys.executeQuery(`SELECT idUser, Accesos from Finanzas.dbo.Users WHERE idUser = ${req.body.idUser}`, req, res);
 });
 module.exports = router;
