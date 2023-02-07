@@ -177,6 +177,21 @@ router.put("/cambiarAccesosRoles", async (req, res) => {
 });
 
 
+// //******************** ACTUALIZAR EL ESTADO DE LA ACTIVIDAD DEL ACCESO ****/
+
+router.put("/actividadAcceso", async (req, res) => {
+    if (req.body.Acceso === 1) {
+        const resp = await querys.executeQuery(`UPDATE Finanzas.dbo.Accesos SET ActivoWeb = '${req.body.Activo}' WHERE IdAcceso = ${req.body.IdAcceso}`, req);
+        querys.executeQuery(`SELECT * FROM Finanzas.[dbo].[vta_Accesos] order by IdAcceso ASC`, req, res);
+    }
+    else {
+        const resp = await querys.executeQuery(`UPDATE Finanzas.dbo.Accesos SET ActivoAPP = '${req.body.Activo}' WHERE IdAcceso = ${req.body.IdAcceso}`, req);
+        querys.executeQuery(`SELECT * FROM Finanzas.[dbo].[vta_Accesos] order by IdAcceso ASC`, req, res);
+    }
+
+});
+
+
 
 
 
