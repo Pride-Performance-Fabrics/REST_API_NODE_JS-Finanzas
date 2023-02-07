@@ -113,4 +113,19 @@ router.post("/IUMenu", async (req, res) => {
 });
 
 
+// //******************** ACTUALIZAR EL ESTADO DE LA ACTIVIDAD DEL MENU ****/
+
+router.put("/actividadMenu", async (req, res) => {
+    if (req.body.Menu === 1) {
+        const resp = await querys.executeQuery(`UPDATE Finanzas.dbo.MenuWeb SET MenuWeb = '${req.body.Activo}' WHERE IdMenu = ${req.body.IdMenu}`, req);
+        querys.executeQuery(`SELECT * FROM Finanzas.dbo.Vta_MenuWeb order by IdMenu ASC`, req, res);
+    }
+    else {
+        const resp = await querys.executeQuery(`UPDATE Finanzas.dbo.MenuWeb SET ActivoAPP = '${req.body.Activo}' WHERE IdMenu = ${req.body.IdMenu}`, req);
+        querys.executeQuery(`SELECT * FROM Finanzas.dbo.Vta_MenuWeb order by IdMenu ASC`, req, res);
+    }
+
+});
+
+
 module.exports = router;
