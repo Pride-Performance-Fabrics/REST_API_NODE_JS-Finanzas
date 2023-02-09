@@ -17,6 +17,10 @@ router.post("/", async (req, res) => {
             value: req.body.IdCategoria
         },
         {
+            key: "CodigoCategoria",
+            value: req.body.CodigoCategoria
+        },
+        {
             key: "Categoria",
             value: req.body.Categoria
         },
