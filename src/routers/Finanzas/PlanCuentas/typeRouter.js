@@ -9,20 +9,23 @@ const cryptoJS = require('crypto-js');
 
 
 router.get("/", async (req, res) => {
-    querys.executeQuery(`SELECT * FROM Finanzas.dbo.AccountType order by Id ASC`, req, res);
+    querys.executeQuery(`SELECT * FROM Finanzas.acc.AccountType order by IdType ASC`, req, res);
 });
 
 router.post("/", async(req, res) =>{
     querys.executeQuery(
         `INSERT INTO Finanzas.dbo.AccountType (
-                              IdType,
-                              Type, 
-                              Description
+                              CodigoType, 
+                              Type,
+                              Description,
+                              IdClase
                               ) VALUES (
-                              ${req.body.IdType},
+                              ${req.body.CodigoType},
                               '${req.body.Type}', 
-                              '${req.body.Description}'
-        ) SELECT TOP(1) * FROM Finanzas.dbo.AccountType ORDER BY IdType DESC`,
+                              '${req.body.Description}',
+                              ${req.body.IdClase}
+
+        ) SELECT TOP(1) * FROM Finanzas.acc.AccountType ORDER BY IdType DESC`,
         req,
         res
       );
@@ -30,27 +33,18 @@ router.post("/", async(req, res) =>{
 
 router.put("/", async(req, res) =>{
     querys.executeQuery(
-        `UPDATE dbo.AccountType SET 
-                              IdType = ${req.body.IdType},
+        `UPDATE Finanzas.acc.AccountType SET 
+                              CodigoType = ${req.body.CodigoType},
                               Type = '${req.body.Type}', 
-                              Description = '${req.body.Description}'
-                              WHERE Id = ${req.body.Id} `,
+                              Description = '${req.body.Description}',
+                              Clase = ${req.body,IdClase}
+            WHERE IdType = ${req.body.IdType} `,
         req,
         res
       );
 })
 
 
-// router.get("/", async (req, res) => {
-//     const types = await querys.executeProcedureWithOutRes(`SELECT * FROM Finanzas.dbo.AccountType order by IdType ASC`, req);
-//     if (types.lenght > 0) {
-//         const result = types.map(async (types) => {
-//             const subType = await querys.executeProcedureWithOutRes(`SELECT * FROM Finanzas.dbo.AccountSubType order by IdSubType ASC`, req);
-//             console.log(subType)
-//         })
-//     }
-//     res.end()
-// });
 
 
 

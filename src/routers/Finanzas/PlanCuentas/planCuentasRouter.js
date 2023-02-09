@@ -10,11 +10,11 @@ const cryptoJS = require('crypto-js');
 
 router.get("/", async (req, res) => {
     console.log("entro aqui")
-    querys.executeQuery(`SELECT * FROM Finanzas.dbo.vta_CharAccount order by Id ASC`, req, res);
+    querys.executeQuery(`SELECT * FROM Finanzas.acc.vta_CharAccount order by IdAccount ASC`, req, res);
 });
 
 router.get("/accounts", async (req, res) => {
-    querys.executeQuery(`SELECT * FROM Finanzas.dbo.CharAccount order by IdAccount ASC`, req, res);
+    querys.executeQuery(`SELECT * FROM Finanzas.acc.CharAccount order by IdAccount ASC`, req, res);
 });
 
 
@@ -53,12 +53,12 @@ router.get("/accounts", async (req, res) => {
 router.post("/", async(req, res) =>{
     const inputs = [
         {
-            key: "id",
-            value: req.body.id
-        },
-        {
             key: "IdAccount",
             value: req.body.IdAccount
+        },
+        {
+            key: "CodigoAccount",
+            value: req.body.CodigoAccount
         },
         {
             key: "Account",
@@ -77,8 +77,8 @@ router.post("/", async(req, res) =>{
             value: req.body.ActiveStatus
         },
         {
-            key: "SubType",
-            value: req.body.SubType
+            key: "IdSubCategoria",
+            value: req.body.IdSubCategoria
         },
         {
             key: "IdContenedorAccount",
@@ -86,7 +86,7 @@ router.post("/", async(req, res) =>{
         },
         {
             key: "IdUser",
-            value: req.body.idUser
+            value: req.body.IdUser
         },
         {
             key: "Fecha",

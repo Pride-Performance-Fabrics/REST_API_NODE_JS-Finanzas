@@ -17,11 +17,16 @@ const emailRouter = require('./src/routers/Herramientas/EnviarMailRouter');
 
 //***************** Rutas de Routers Finanzas *****************/
 
+const classesRouter = require('./src/routers/Finanzas/classesRouter')
+
+//***************** Rutas de Resgistro Contable *****************/
+
 const planCuentasRouter = require('./src/routers/Finanzas/PlanCuentas/planCuentasRouter');
 const subTypeRouter = require('./src/routers/Finanzas/PlanCuentas/subTypeRouter');
 const typeRouter = require('./src/routers/Finanzas/PlanCuentas/typeRouter');
 const currencyRouter = require('./src/routers/Generales/Currency/currencyRouter')
-
+const categoriaRouter = require('./src/routers/Finanzas/PlanCuentas/categoriasRouter');
+const subCategoriaRouter = require('./src/routers/Finanzas/PlanCuentas/subCategoriasRouter')
 
 //***************** Rutas de Routers GENERALES*****************/
 
@@ -64,10 +69,16 @@ app.use('/email', emailRouter)
 
 
 //****************************** Finanzas ******************************/
+app.use("/finanzas/classes", classesRouter)
+
+//****************************** Finanzas-Registro Contable ******************************/
 app.use('/finanzas/planCuentas', planCuentasRouter)
 app.use('/finanzas/subTypes', subTypeRouter)
 app.use('/finanzas/types', typeRouter)
 app.use('/finanzas/currency', currencyRouter)
+app.use('/finanzas/categorias', categoriaRouter)
+app.use('/finanzas/subCategorias',subCategoriaRouter)
+
 
 //****************************** Accesos ******************************/
 
