@@ -9,7 +9,7 @@ const cryptoJS = require('crypto-js');
 
 
 router.get("/", async (req, res) => {
-    querys.executeQuery(`SELECT * FROM Finanzas.acc.AccountType order by IdType ASC`, req, res);
+    querys.executeQuery(`SELECT * FROM Finanzas.acc.vta_Types order by IdType ASC`, req, res);
 });
 
 router.post("/", async(req, res) =>{
@@ -18,7 +18,7 @@ router.post("/", async(req, res) =>{
                               CodigoType, 
                               Type,
                               Description,
-                              IdClase
+                              Clase
                               ) VALUES (
                               ${req.body.CodigoType},
                               '${req.body.Type}', 
@@ -37,7 +37,7 @@ router.put("/", async(req, res) =>{
                               CodigoType = ${req.body.CodigoType},
                               Type = '${req.body.Type}', 
                               Description = '${req.body.Description}',
-                              IdClase = ${req.body,IdClase}
+                              Clase = ${req.body.IdClase}
             WHERE IdType = ${req.body.IdType} `,
         req,
         res
