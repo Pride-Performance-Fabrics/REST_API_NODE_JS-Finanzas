@@ -14,7 +14,7 @@ router.get("/", async (req, res) => {
 
 router.post("/", async(req, res) =>{
     querys.executeQuery(
-        `INSERT INTO Finanzas.dbo.AccountType (
+        `INSERT INTO Finanzas.acc.AccountType (
                               CodigoType, 
                               Type,
                               Description,
@@ -37,7 +37,7 @@ router.put("/", async(req, res) =>{
                               CodigoType = ${req.body.CodigoType},
                               Type = '${req.body.Type}', 
                               Description = '${req.body.Description}',
-                              Clase = ${req.body,IdClase}
+                              IdClase = ${req.body,IdClase}
             WHERE IdType = ${req.body.IdType} `,
         req,
         res

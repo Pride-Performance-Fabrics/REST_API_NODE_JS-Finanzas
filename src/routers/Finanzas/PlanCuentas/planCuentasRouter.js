@@ -65,8 +65,8 @@ router.post("/", async(req, res) =>{
             value: req.body.Account
         },
         {
-            key: "Currency",
-            value: req.body.Currency
+            key: "IdCurrency",
+            value: req.body.IdCurrency
         },
         {
             key: "Description",
@@ -99,7 +99,23 @@ router.post("/", async(req, res) =>{
 
     ]
     querys.executeProcedure(`FINANZAS.[web].[IUCharAccount]`, req, res, inputs);
-})
+});
+
+// router.get("/AccountGroup", async(req,res) =>{
+//     const accountGroup = await  querys.executeQuery(`SELECT * FROM Finanzas.acc.vta_CharAccount order by IdAccount ASC`, req);
+
+//     if(accountGroup.data.legth > 0){
+//         let cuentas = []
+//         accountGroup.data.forEach(cuenta => {
+//             if(cuentas.findIndex(i => i.IdAccount === cuenta.IdAccount) < 0){
+//                 cuentas.push({
+
+//                 })
+//             }
+//         });
+//     }
+// })
+
 
 
 
