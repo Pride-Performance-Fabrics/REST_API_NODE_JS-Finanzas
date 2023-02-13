@@ -70,7 +70,7 @@ router.post("/", async(req, res) =>{
         },
         {
             key: "Description",
-            value: req.body.Description
+            value: req.body.DescriptionCharAccount
         },
         {
             key: "ActiveStatus",
