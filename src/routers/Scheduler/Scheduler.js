@@ -25,9 +25,10 @@ router.post('/', (req, res) => {
           , [allDay]
           , [rRule]
         --  , [exDate]
-        
           , [notes]
           , [members]
+          ,[createDate]
+          ,[status]
           
           )
  VALUES
@@ -39,11 +40,11 @@ router.post('/', (req, res) => {
              ${req.body.allDay ? 1 : 0},
              ${req.body.rRule === null ? null : "'" + req.body.rRule + "'"},
             -- ${req.body.exDate === null ? null : "'" + req.body.exDate + "'"},
-            
              '${req.body.notes}'
              ,${req.body.members === null ? null : "'" + req.body.members + "'"}
-             
-          `,
+             ,'${req.body.createDate}'
+             ,${req.body.status}
+             )`,
        req, res)
  });
 
@@ -67,11 +68,22 @@ router.put('/', (req, res) => {
        , req, res)
  });
 
- //***************************** ELIMINA UN EVENTOS  ***********************************//
- router.delete('/:IdCalendar', (req, res) => {
-    console.log('Delete',req.params.IdCalendar)
-    querys.executeQuery(`DELETE FROM [Finanzas].[dbo].[Calendar] WHERE IdCalendar = ${req.params.IdCalendar}`, req, res)
- });
+ //***************************** EDITAR EL ESTADO UNA ACTIVIDAD  ***********************************//
+//  router.delete('/:IdCalendar', (req, res) => {
+//     console.log('Editar Estado',req.params.IdCalendar)
+//     querys.executeQuery(`UPDATE [dbo].[Calendar]
+//     SET 
+//        [status] = ${0}
+//    WHERE IdCalendar = ${req.params.IdCalendar}`, req, res)
+//  });
+
+ router.put('/:IdCalendar', (req, res) => {
+   console.log('Editar Estado',req.params.IdCalendar)
+   querys.executeQuery(`UPDATE [dbo].[Calendar]
+   SET 
+      [status] = ${0}
+  WHERE IdCalendar = ${req.params.IdCalendar}`, req, res)
+});
  
 
 module.exports = router;
