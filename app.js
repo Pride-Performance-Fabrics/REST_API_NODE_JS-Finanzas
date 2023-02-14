@@ -30,7 +30,8 @@ const subCategoriaRouter = require('./src/routers/Finanzas/PlanCuentas/subCatego
 
 //***************** Rutas de Routers GENERALES*****************/
 
-const accesosWebRouter = require('./src/routers/Accesos/accesosRouter')
+const accesosWebRouter = require('./src/routers/Accesos/accesosRouter');
+const schedulerRouter = require('./src/routers/Scheduler/Scheduler');
 
 const app = express();
 
@@ -70,6 +71,7 @@ app.use('/email', emailRouter)
 
 //****************************** Finanzas ******************************/
 app.use("/finanzas/classes", classesRouter)
+app.use('/schedulerCalendar', schedulerRouter)
 
 //****************************** Finanzas-Registro Contable ******************************/
 app.use('/finanzas/planCuentas', planCuentasRouter)

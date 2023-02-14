@@ -7,10 +7,13 @@ const jwk = require("jsonwebtoken");
 
 const cryptoJS = require('crypto-js');
 
+//***************************** OBTIENE LOS TIPOS DE CUENTAS  ***********************************//
 
 router.get("/", async (req, res) => {
     querys.executeQuery(`SELECT * FROM Finanzas.acc.vta_Types order by IdType ASC`, req, res);
 });
+
+//***************************** INSERTA NUEVO TIPOS DE CUENTAS  ***********************************//
 
 router.post("/", async(req, res) =>{
     querys.executeQuery(
@@ -31,6 +34,8 @@ router.post("/", async(req, res) =>{
       );
 })
 
+//***************************** ACTUALIZA LOS TIPOS DE CUENTAS  ***********************************//
+
 router.put("/", async(req, res) =>{
     querys.executeQuery(
         `UPDATE Finanzas.acc.AccountType SET 
@@ -43,12 +48,6 @@ router.put("/", async(req, res) =>{
         res
       );
 })
-
-
-
-
-
-
 
 
 module.exports = router;
