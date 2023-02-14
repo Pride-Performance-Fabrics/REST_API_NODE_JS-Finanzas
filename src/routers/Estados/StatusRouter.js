@@ -11,8 +11,8 @@ router.get('/Security', async(req, res) => {
 router.put('/finanzas', async(req,res) =>{
     inputs = [
         {
-            key: 'id',
-            value: req.body.id
+            key: 'IdAccount',
+            value: req.body.IdAccount
         },
         {
             key: 'ActiveStatus',
