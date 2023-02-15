@@ -7,6 +7,8 @@ const jwk = require("jsonwebtoken");
 
 const cryptoJS = require('crypto-js');
 
+const setDateTimeSQL = require("../../services/fechasServices")
+
 //***************************** OBTIENE LOS EVENTOS  ***********************************//
 router.get("/", async (req, res) => {
   querys.executeQuery(`SELECT [IdCalendar]
