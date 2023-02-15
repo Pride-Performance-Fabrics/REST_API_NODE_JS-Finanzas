@@ -9,7 +9,7 @@ const cryptoJS = require('crypto-js');
 
 //***************************** OBTIENE LOS EVENTOS  ***********************************//
 router.get("/", async (req, res) => {
-    querys.executeQuery(`SELECT * FROM [Finanzas].[dbo].[Calendar] order by Idcalendar`, req, res);
+    querys.executeQuery(`SELECT * FROM [Finanzas].[dbo].[Calendar] where  status = 1 order by IdCalendar`, req, res);
 });
 
 //***************************** INSERTA NUEVO EVENTOS  ***********************************//
@@ -77,12 +77,12 @@ router.put('/', (req, res) => {
 //    WHERE IdCalendar = ${req.params.IdCalendar}`, req, res)
 //  });
 
- router.put('/:IdCalendar', (req, res) => {
-   console.log('Editar Estado',req.params.IdCalendar)
-   querys.executeQuery(`UPDATE [dbo].[Calendar]
+ router.put('/status', (req, res) => {
+   // console.log('Editar Estado',req.params.IdCalendar)
+   querys.executeQuery(`UPDATE [Finanzas].[dbo].[Calendar]
    SET 
-      [status] = ${0}
-  WHERE IdCalendar = ${req.params.IdCalendar}`, req, res)
+      [status] = 0
+  WHERE IdCalendar = ${req.body.IdCalendar}`, req, res)
 });
  
 
