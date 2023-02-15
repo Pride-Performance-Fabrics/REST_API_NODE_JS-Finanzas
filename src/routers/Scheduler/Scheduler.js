@@ -9,13 +9,27 @@ const cryptoJS = require('crypto-js');
 
 //***************************** OBTIENE LOS EVENTOS  ***********************************//
 router.get("/", async (req, res) => {
-    querys.executeQuery(`SELECT * FROM [Finanzas].[dbo].[Calendar] where  status = 1 order by IdCalendar`, req, res);
+  querys.executeQuery(`SELECT [IdCalendar]
+    ,[IdUser]
+    ,[IdRol]
+    ,CONVERT(VARCHAR(MAX),[startDate], 22) AS startDate
+    ,CONVERT(VARCHAR(MAX) ,[endDate], 22) AS endDate
+    ,[title]
+    ,[allDay]
+    ,[rRule]
+    ,[exDate]
+    ,[notes]
+    ,[members]
+    ,[createDate]
+    ,[status]
+    ,[colorId]
+FROM [dbo].[Calendar] where  status = 1 order by IdCalendar`, req, res);
 });
 
 //***************************** INSERTA NUEVO EVENTOS  ***********************************//
 
 router.post('/', (req, res) => {
-    querys.executeQuery(`
+  querys.executeQuery(`
     INSERT INTO [Finanzas].[dbo].[Calendar]
        ([IdUser]
           , [IdRol]
@@ -29,6 +43,7 @@ router.post('/', (req, res) => {
           , [members]
           ,[createDate]
           ,[status]
+          ,[colorId]
           
           )
  VALUES
@@ -44,15 +59,16 @@ router.post('/', (req, res) => {
              ,${req.body.members === null ? null : "'" + req.body.members + "'"}
              ,'${req.body.createDate}'
              ,${req.body.status}
+             ,${req.body.colorId}
              )`,
-       req, res)
- });
+    req, res)
+});
 
 //***************************** ACTUALIZA LOS EVENTOS  ***********************************// 
 
 router.put('/', (req, res) => {
-    console.log('Edit',req.body)
-    querys.executeQuery(`
+  console.log('Edit', req.body)
+  querys.executeQuery(`
     UPDATE [Finanzas].[dbo].[Calendar]
     SET [IdUser] = ${req.body.IdUser}
        ,[IdRol] = ${req.body.IdRol}
@@ -64,11 +80,12 @@ router.put('/', (req, res) => {
        --,[exDate] = ${req.body.exDate === null ? null : "'" + req.body.exDate + "'"}
        ,[notes] = '${req.body.notes}'
        ,[members] = ${req.body.members === null ? null : "'" + req.body.members + "'"}
+       ,[colorId] = ${req.body.colorId}
   WHERE IdCalendar = ${req.body.IdCalendar}`
-       , req, res)
- });
+    , req, res)
+});
 
- //***************************** EDITAR EL ESTADO UNA ACTIVIDAD  ***********************************//
+//***************************** EDITAR EL ESTADO UNA ACTIVIDAD  ***********************************//
 //  router.delete('/:IdCalendar', (req, res) => {
 //     console.log('Editar Estado',req.params.IdCalendar)
 //     querys.executeQuery(`UPDATE [dbo].[Calendar]
@@ -77,13 +94,13 @@ router.put('/', (req, res) => {
 //    WHERE IdCalendar = ${req.params.IdCalendar}`, req, res)
 //  });
 
- router.put('/status', (req, res) => {
-   // console.log('Editar Estado',req.params.IdCalendar)
-   querys.executeQuery(`UPDATE [Finanzas].[dbo].[Calendar]
+router.put('/:IdCalendar', (req, res) => {
+  // console.log('Editar Estado',req.params.IdCalendar)
+  querys.executeQuery(`UPDATE [Finanzas].[dbo].[Calendar]
    SET 
       [status] = 0
-  WHERE IdCalendar = ${req.body.IdCalendar}`, req, res)
+  WHERE IdCalendar = ${req.params.IdCalendar}`, req, res)
 });
- 
+
 
 module.exports = router;
