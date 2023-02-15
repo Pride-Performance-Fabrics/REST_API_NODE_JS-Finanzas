@@ -32,6 +32,7 @@ const subCategoriaRouter = require('./src/routers/Finanzas/PlanCuentas/subCatego
 
 const accesosWebRouter = require('./src/routers/Accesos/accesosRouter');
 const schedulerRouter = require('./src/routers/Scheduler/Scheduler');
+const prioridadRouter = require('./src/routers/Generales/Prioridad/PrioridadRouter');
 
 const app = express();
 
@@ -86,7 +87,9 @@ app.use('/finanzas/subCategorias',subCategoriaRouter)
 
 app.use('/accesos', accesosWebRouter)
 
+//****************************** Prioridad ******************************/
 
+app.use('/prioridad', prioridadRouter)
 
 app.listen(process.env.PORT, async () => {
     console.log('EL SERVIDOR ESTA ESCUCHANDO EN EL PUERTO:', process.env.PORT);

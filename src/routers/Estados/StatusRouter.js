@@ -23,6 +23,10 @@ router.put('/finanzas', async(req,res) =>{
 
 })
 
+router.get('/Actividad', async(req, res) => {
+    querys.executeQuery(`SELECT * FROM Finanzas.dbo.Status WHERE StatusCategory = 'Actividad' ORDER BY IdStatus`, req, res);
+});
+
 
 
 
