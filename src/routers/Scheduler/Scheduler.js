@@ -25,7 +25,9 @@ router.get("/", async (req, res) => {
     ,[createDate]
     ,[status]
     ,[colorId]
-FROM [dbo].[Calendar] where  status = 1 order by IdCalendar`, req, res);
+    ,[Priority]
+    ,[reminder]
+FROM [dbo].[Calendar] where  status <> 8 order by IdCalendar`, req, res);
 });
 
 //***************************** INSERTA NUEVO EVENTOS  ***********************************//
@@ -34,19 +36,20 @@ router.post('/', (req, res) => {
   querys.executeQuery(`
     INSERT INTO [Finanzas].[dbo].[Calendar]
        ([IdUser]
-          , [IdRol]
-          , [startDate]
-          , [endDate]
-          , [title]
-          , [allDay]
-          , [rRule]
+          ,[IdRol]
+          ,[startDate]
+          ,[endDate]
+          ,[title]
+          ,[allDay]
+          ,[rRule]
         --  , [exDate]
-          , [notes]
-          , [members]
+          ,[notes]
+          ,[members]
           ,[createDate]
           ,[status]
           ,[colorId]
-          
+          ,[Priority]
+          ,[reminder]
           )
  VALUES
           (${req.body.IdUser},
@@ -62,6 +65,8 @@ router.post('/', (req, res) => {
              ,'${req.body.createDate}'
              ,${req.body.status}
              ,${req.body.colorId}
+             ,${req.body.Priority}
+             ,${req.body.reminder}
              )`,
     req, res)
 });
@@ -82,7 +87,10 @@ router.put('/', (req, res) => {
        --,[exDate] = ${req.body.exDate === null ? null : "'" + req.body.exDate + "'"}
        ,[notes] = '${req.body.notes}'
        ,[members] = ${req.body.members === null ? null : "'" + req.body.members + "'"}
+       ,[status] = ${req.body.status}
        ,[colorId] = ${req.body.colorId}
+       ,[Priority] = ${req.body.Priority}
+      ,[reminder] = ${req.body.reminder}
   WHERE IdCalendar = ${req.body.IdCalendar}`
     , req, res)
 });
@@ -100,9 +108,13 @@ router.put('/:IdCalendar', (req, res) => {
   // console.log('Editar Estado',req.params.IdCalendar)
   querys.executeQuery(`UPDATE [Finanzas].[dbo].[Calendar]
    SET 
-      [status] = 0
+      [status] = 8
   WHERE IdCalendar = ${req.params.IdCalendar}`, req, res)
 });
 
+//***************************** Notificaiones  ***********************************//
+router.get("/notificaciones", async (req, res) => {
+  querys.executeQuery(`SELECT * FROM vta_CalendarioActividades ORDER BY vta_CalendarioActividades.endDate ASC`, req, res);
+});
 
 module.exports = router;
