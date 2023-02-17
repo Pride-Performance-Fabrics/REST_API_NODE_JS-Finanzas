@@ -104,7 +104,7 @@ router.put('/', (req, res) => {
 //    WHERE IdCalendar = ${req.params.IdCalendar}`, req, res)
 //  });
 
-router.put('/:IdCalendar', (req, res) => {
+router.put('/cancelarActividad/:IdCalendar', (req, res) => {
   // console.log('Editar Estado',req.params.IdCalendar)
   querys.executeQuery(`UPDATE [Finanzas].[dbo].[Calendar]
    SET 
@@ -115,6 +115,19 @@ router.put('/:IdCalendar', (req, res) => {
 //***************************** Notificaiones  ***********************************//
 router.get("/notificaciones", async (req, res) => {
   querys.executeQuery(`SELECT * FROM vta_CalendarioActividades ORDER BY vta_CalendarioActividades.endDate ASC`, req, res);
+});
+
+router.put('/cambiarEstado', async (req, res) => {
+  console.log(req.body)
+ const r = await querys.executeQuery(`UPDATE [Finanzas].[dbo].[Calendar]
+   SET [status] = ${req.body.Status} WHERE IdCalendar = ${req.body.IdCalendar}`, req)
+   
+   querys.executeQuery(`SELECT * FROM [Finanzas].[dbo].[vta_allActivities] WHERE vta_allActivities.IdCalendar = ${req.body.IdCalendar}`, req, res)
+});
+
+router.get('/obtenerActividad/:IdCalendar', (req, res) => {
+  // console.log('Editar Estado',req.params.IdCalendar)
+  querys.executeQuery(`SELECT * FROM vta_CalendarioActividades WHERE vta_CalendarioActividades.IdCalendar = ${req.params.IdCalendar}`, req, res)
 });
 
 module.exports = router;
