@@ -5,12 +5,17 @@ const querys = require("../../services/querys");
 const crypterService = require("../../services/crypto");
 const jwk = require("jsonwebtoken");
 
+const {obtenerUsuario} = require("../../utils/funciones")
+
 const cryptoJS = require('crypto-js');
 
 const setDateTimeSQL = require("../../services/fechasServices")
 
+
+
 //***************************** OBTIENE LOS EVENTOS  ***********************************//
 router.get("/", async (req, res) => {
+
   querys.executeQuery(`SELECT [IdCalendar]
     ,[IdUser]
     ,[IdRol]
@@ -32,7 +37,9 @@ FROM [dbo].[Calendar] where  status <> 8 order by IdCalendar`, req, res);
 
 //***************************** INSERTA NUEVO EVENTOS  ***********************************//
 
-router.post('/', (req, res) => {
+router.post('/', async(req, res) => {
+  const IdUsuario = await obtenerUsuario(req)
+  console.log(IdUsuario)
   querys.executeQuery(`
     INSERT INTO [Finanzas].[dbo].[Calendar]
        ([IdUser]
@@ -50,6 +57,7 @@ router.post('/', (req, res) => {
           ,[colorId]
           ,[Priority]
           ,[reminder]
+          ,[IdUserEdit]
           )
  VALUES
           (${req.body.IdUser},
@@ -67,13 +75,16 @@ router.post('/', (req, res) => {
              ,${req.body.colorId}
              ,${req.body.Priority}
              ,${req.body.reminder}
+             ,${IdUsuario}
              )`,
     req, res)
 });
 
 //***************************** ACTUALIZA LOS EVENTOS  ***********************************// 
 
-router.put('/', (req, res) => {
+router.put('/', async (req, res) => {
+  const IdUsuario = await obtenerUsuario(req)
+  console.log(IdUsuario)
   console.log('Edit', req.body)
   querys.executeQuery(`
     UPDATE [Finanzas].[dbo].[Calendar]
@@ -91,6 +102,7 @@ router.put('/', (req, res) => {
        ,[colorId] = ${req.body.colorId}
        ,[Priority] = ${req.body.Priority}
       ,[reminder] = ${req.body.reminder}
+      ,[IdUserEdit] = ${IdUsuario}
   WHERE IdCalendar = ${req.body.IdCalendar}`
     , req, res)
 });
@@ -104,11 +116,15 @@ router.put('/', (req, res) => {
 //    WHERE IdCalendar = ${req.params.IdCalendar}`, req, res)
 //  });
 
-router.put('/cancelarActividad/:IdCalendar', (req, res) => {
-  // console.log('Editar Estado',req.params.IdCalendar)
+router.put('/cancelarActividad/:IdCalendar', async (req, res) => {
+ 
+  const IdUsuario = await obtenerUsuario(req)
+  console.log(IdUsuario)
+
   querys.executeQuery(`UPDATE [Finanzas].[dbo].[Calendar]
    SET 
       [status] = 8
+      ,[IdUserEdit] = ${IdUsuario}
   WHERE IdCalendar = ${req.params.IdCalendar}`, req, res)
 });
 
@@ -118,9 +134,10 @@ router.get("/notificaciones", async (req, res) => {
 });
 
 router.put('/cambiarEstado', async (req, res) => {
-  console.log(req.body)
+  const IdUsuario = await obtenerUsuario(req)
+  console.log(IdUsuario)
  const r = await querys.executeQuery(`UPDATE [Finanzas].[dbo].[Calendar]
-   SET [status] = ${req.body.Status} WHERE IdCalendar = ${req.body.IdCalendar}`, req)
+   SET [status] = ${req.body.Status}, [IdUserEdit] = ${IdUsuario} WHERE IdCalendar = ${req.body.IdCalendar}`, req)
    
    querys.executeQuery(`SELECT * FROM [Finanzas].[dbo].[vta_allActivities] WHERE vta_allActivities.IdCalendar = ${req.body.IdCalendar}`, req, res)
 });
