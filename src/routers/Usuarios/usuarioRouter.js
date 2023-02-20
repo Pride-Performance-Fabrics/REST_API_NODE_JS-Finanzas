@@ -232,5 +232,14 @@ router.get("/seleccionUsuarios/", async (req, res) => {
   );
 });
 
+// *** OBTENER TODOS LOS dbo.User con su ID, UserName, Usuario Del Rol Finanzas *** 
+router.get("/seleccionUsuariosFinanzas/", async (req, res) => {
+  querys.executeQuery(
+    "SELECT idUser, Usuario, UserName, Mail, IdRol from Finanzas.dbo.Users where Status = 1 and IdRol = 2",
+    req,
+    res
+  );
+});
+
 
 module.exports = router;
