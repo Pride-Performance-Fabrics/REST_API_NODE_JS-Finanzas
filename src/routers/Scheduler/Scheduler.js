@@ -5,7 +5,7 @@ const querys = require("../../services/querys");
 const crypterService = require("../../services/crypto");
 const jwk = require("jsonwebtoken");
 
-const {obtenerUsuario} = require("../../utils/funciones")
+const { obtenerUsuario } = require("../../utils/funciones")
 
 const cryptoJS = require('crypto-js');
 
@@ -37,7 +37,7 @@ FROM [dbo].[Calendar] where  status <> 8 order by IdCalendar`, req, res);
 
 //***************************** INSERTA NUEVO EVENTOS  ***********************************//
 
-router.post('/', async(req, res) => {
+router.post('/', async (req, res) => {
   const IdUsuario = await obtenerUsuario(req)
   console.log(IdUsuario)
   querys.executeQuery(`
@@ -54,7 +54,6 @@ router.post('/', async(req, res) => {
           ,[members]
           ,[createDate]
           ,[status]
-          ,[colorId]
           ,[Priority]
           ,[reminder]
           ,[IdUserEdit]
@@ -72,7 +71,6 @@ router.post('/', async(req, res) => {
              ,${req.body.members === null ? null : "'" + req.body.members + "'"}
              ,'${req.body.createDate}'
              ,${req.body.status}
-             ,${req.body.colorId}
              ,${req.body.Priority}
              ,${req.body.reminder}
              ,${IdUsuario}
@@ -99,7 +97,6 @@ router.put('/', async (req, res) => {
        ,[notes] = '${req.body.notes}'
        ,[members] = ${req.body.members === null ? null : "'" + req.body.members + "'"}
        ,[status] = ${req.body.status}
-       ,[colorId] = ${req.body.colorId}
        ,[Priority] = ${req.body.Priority}
       ,[reminder] = ${req.body.reminder}
       ,[IdUserEdit] = ${IdUsuario}
@@ -117,7 +114,7 @@ router.put('/', async (req, res) => {
 //  });
 
 router.put('/cancelarActividad/:IdCalendar', async (req, res) => {
- 
+
   const IdUsuario = await obtenerUsuario(req)
   console.log(IdUsuario)
 
@@ -136,15 +133,50 @@ router.get("/notificaciones", async (req, res) => {
 router.put('/cambiarEstado', async (req, res) => {
   const IdUsuario = await obtenerUsuario(req)
   console.log(IdUsuario)
- const r = await querys.executeQuery(`UPDATE [Finanzas].[dbo].[Calendar]
-   SET [status] = ${req.body.Status}, [IdUserEdit] = ${IdUsuario} WHERE IdCalendar = ${req.body.IdCalendar}`, req)
-   
-   querys.executeQuery(`SELECT * FROM [Finanzas].[dbo].[vta_allActivities] WHERE vta_allActivities.IdCalendar = ${req.body.IdCalendar}`, req, res)
+  let dateEdit = setDateTimeSQL(new Date())
+  console.log(dateEdit)
+  switch (req.body.Status) {
+    case 6:
+    const r6 = await querys.executeQuery(`UPDATE [Finanzas].[dbo].[Calendar]
+      SET [status] = ${req.body.Status}, [IdUserProcess] = ${IdUsuario}, [processStatusDate] = '${dateEdit}' WHERE IdCalendar = ${req.body.IdCalendar}`, req)
+      querys.executeQuery(`SELECT * FROM [Finanzas].[dbo].[vta_allActivities] WHERE vta_allActivities.IdCalendar = ${req.body.IdCalendar}`, req, res)
+      break;
+
+    case 7:
+     const r7 = await querys.executeQuery(`UPDATE [Finanzas].[dbo].[Calendar]
+        SET [status] = ${req.body.Status}, [IdUserComplete] = ${IdUsuario}, [completetStatusDate] = '${dateEdit}' WHERE IdCalendar = ${req.body.IdCalendar}`, req)
+      querys.executeQuery(`SELECT * FROM [Finanzas].[dbo].[vta_allActivities] WHERE vta_allActivities.IdCalendar = ${req.body.IdCalendar}`, req, res)
+      break;
+
+    case 8:
+      const r8 = await querys.executeQuery(`UPDATE [Finanzas].[dbo].[Calendar]
+            SET [status] = ${req.body.Status}, [IdUserCancel] = ${IdUsuario}, [cancelStatusDate] = '${dateEdit}' WHERE IdCalendar = ${req.body.IdCalendar}`, req)
+      querys.executeQuery(`SELECT * FROM [Finanzas].[dbo].[vta_allActivities] WHERE vta_allActivities.IdCalendar = ${req.body.IdCalendar}`, req, res)
+      break;
+
+    default:
+      const r5 = await querys.executeQuery(`UPDATE [Finanzas].[dbo].[Calendar]
+      SET [status] = ${req.body.Status}, [IdUserEdit] = ${IdUsuario} WHERE IdCalendar = ${req.body.IdCalendar}`, req)
+      querys.executeQuery(`SELECT * FROM [Finanzas].[dbo].[vta_allActivities] WHERE vta_allActivities.IdCalendar = ${req.body.IdCalendar}`, req, res)
+      break;
+      
+  }
 });
 
 router.get('/obtenerActividad/:IdCalendar', (req, res) => {
   // console.log('Editar Estado',req.params.IdCalendar)
   querys.executeQuery(`SELECT * FROM vta_CalendarioActividades WHERE vta_CalendarioActividades.IdCalendar = ${req.params.IdCalendar}`, req, res)
 });
+
+router.get('/cantidadActividades/', (req, res) => {
+  // console.log('Editar Estado',req.params.IdCalendar)
+  querys.executeQuery(`SELECT COUNT ([IdCalendar]) as Cantidad
+  FROM [dbo].[Calendar] where  status <> 8 `, req, res)
+});
+
+router.get('/allActivities', (req, res) =>{
+  console.log("entro aqui")
+  querys.executeQuery(`SELECT * FROM [Finanzas].[dbo].[vta_allActivities]`, req, res)
+})
 
 module.exports = router;
