@@ -34,6 +34,11 @@ const accesosWebRouter = require('./src/routers/Accesos/accesosRouter');
 const schedulerRouter = require('./src/routers/Scheduler/Scheduler');
 const prioridadRouter = require('./src/routers/Generales/Prioridad/PrioridadRouter');
 
+
+//***************** Rutas de Routers HERRAMIENTAS*****************/
+
+const notificacionesWebRouter = require('./src/routers/Herramientas/Notificaciones/notificacionesWebRouter');
+
 const app = express();
 
 app.use(cors({ origin: true, credentials: false }));
@@ -90,6 +95,11 @@ app.use('/accesos', accesosWebRouter)
 //****************************** Prioridad ******************************/
 
 app.use('/prioridad', prioridadRouter)
+
+
+//****************************** Herramientas******************************/
+
+app.use('/notificaciones', notificacionesWebRouter)
 
 app.listen(process.env.PORT, async () => {
     console.log('EL SERVIDOR ESTA ESCUCHANDO EN EL PUERTO:', process.env.PORT);

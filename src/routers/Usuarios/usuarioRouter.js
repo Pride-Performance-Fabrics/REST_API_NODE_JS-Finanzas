@@ -94,6 +94,7 @@ router.post("/login", async (req, res) => {
             await crypterService.setToken(
               {
                 ...user,
+                NotificacionToken: req.body.NotificacionToken,
                 subscription: !req.body.subscription
                   ? null
                   : req.body.subscription,
@@ -240,6 +241,18 @@ router.get("/seleccionUsuariosFinanzas/", async (req, res) => {
     res
   );
 });
+
+
+// *** OBTENER TODOS LOS dbo.User con su ID, UserName, Usuario DE UN ROL ESPECIFICO *** 
+router.get("/seleccionUsuariosRol/", async (req, res) => {
+  querys.executeQuery(
+    "SELECT idUser, Usuario, UserName, IdRol, Mail FROM Finanzas.dbo.Users WHERE IdRol in (1,2) AND Status = 1",
+    req,
+    res
+  );
+});
+
+
 
 
 module.exports = router;
