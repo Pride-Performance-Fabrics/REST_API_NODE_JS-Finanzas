@@ -91,7 +91,7 @@ const getToken = (idUser, Usuario, UserName, IdRol, Rol, IP, subscription, ingre
 
 
 const setToken = async (user, res = false) => {
-    console.log(user);
+    console.log(user, "setToken");
     if (user.idUser) {
         let date = new Date();
         let expire = new Date(date.getTime() + tiempoActivo * 60 * 1000);
@@ -105,7 +105,7 @@ const setToken = async (user, res = false) => {
         if (res) {
             // CREA UNA NUEVA SESION
             console.log(`bsssss,`, user);
-            const token = getToken(user.idUser, user.Usuario, user.UserName, user.IdRol, user.Rol, user.IP, user.subscription);
+            const token = getToken(user.idUser, user.Usuario, user.UserName, user.IdRol, user.Rol, user.IP, user.subscription, user.NotificacionToken);
             // console.log(token);
             const rest = await po.request()
                 .input('idUser', user.idUser)
@@ -114,6 +114,7 @@ const setToken = async (user, res = false) => {
                 .input('vencimiento', expire)
                 .input('IP', user.IP)
                 .input('Type', 'WEB')
+                .input('NotificacionToken', user.NotificacionToken)
                 .execute('web.cambiarTokenSession')
                 // console.log(`sdssssssss`,rest)
                 .then((result) => {
@@ -135,7 +136,7 @@ const setToken = async (user, res = false) => {
 
         } else {
             // ACTUALIZA EL TOKEN DE UNA SESION ACTIVA
-            const token = getToken(user.idUser, user.Usuario, user.UserName, user.IdRol, user.Rol, user.IP, user.subscription, user.ingreso);
+            const token = getToken(user.idUser, user.Usuario, user.UserName, user.IdRol, user.Rol, user.IP, user.subscription, user.ingreso, user.NotificacionToken);
             console.log('******************************************************************************************************')
             console.log(JSON.stringify(user, null, 3));
             console.log('******************************************************************************************************')
@@ -147,6 +148,7 @@ const setToken = async (user, res = false) => {
                 .input('creada', creada)
                 .input('vencimiento', expire)
                 .input('IP', user.IP)
+                .input('NotificactionToken', user.NotificacionToken)
                 .execute('web.cambiarTokenSession')
                 .then((result) => {
                     return ({
