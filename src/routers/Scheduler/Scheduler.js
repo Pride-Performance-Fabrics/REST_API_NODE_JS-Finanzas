@@ -9,7 +9,7 @@ const { obtenerUsuario } = require("../../utils/funciones")
 
 const cryptoJS = require('crypto-js');
 
-const setDateTimeSQL = require("../../services/fechasServices")
+const {setDateTimeSQL }= require("../../services/fechasServices")
 
 
 
@@ -100,6 +100,12 @@ router.put('/', async (req, res) => {
        ,[Priority] = ${req.body.Priority}
       ,[reminder] = ${req.body.reminder}
       ,[IdUserEdit] = ${IdUsuario}
+      ,[IdUserProcess] = ${req.body.status === 6 ? IdUsuario: null}
+      ,[processStatusDate] = ${req.body.status === 6 ? `'${setDateTimeSQL(new Date())}'`: null}
+      ,[IdUserComplete] = ${req.body.status === 7 ? IdUsuario: null}
+      ,[completeStatusDate] = ${req.body.status === 7 ? `'${setDateTimeSQL(new Date())}'`: null}
+      ,[IdUserCancel] = ${req.body.status === 8 ? IdUsuario: null}
+      ,[cancelStatusDate] = ${req.body.status === 8 ? `'${setDateTimeSQL(new Date())}'`: null}
   WHERE IdCalendar = ${req.body.IdCalendar}`
     , req, res)
 });
@@ -144,7 +150,7 @@ router.put('/cambiarEstado', async (req, res) => {
 
     case 7:
      const r7 = await querys.executeQuery(`UPDATE [Finanzas].[dbo].[Calendar]
-        SET [status] = ${req.body.Status}, [IdUserComplete] = ${IdUsuario}, [completetStatusDate] = '${dateEdit}' WHERE IdCalendar = ${req.body.IdCalendar}`, req)
+        SET [status] = ${req.body.Status}, [IdUserComplete] = ${IdUsuario}, [completeStatusDate] = '${dateEdit}' WHERE IdCalendar = ${req.body.IdCalendar}`, req)
       querys.executeQuery(`SELECT * FROM [Finanzas].[dbo].[vta_allActivities] WHERE vta_allActivities.IdCalendar = ${req.body.IdCalendar}`, req, res)
       break;
 
