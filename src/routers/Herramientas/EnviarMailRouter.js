@@ -73,7 +73,7 @@ router.get("/correoPagos",async(req, res) =>{
     })
 
     // let pagosPendientes = []
-    const pagos = await querys.executeQuery(`SELECT * FROM vta_CalendarioActividades ORDER BY vta_CalendarioActividades.endDate ASC`, req);
+    const pagos = await querys.executeQuery(`SELECT * FROM [Finanzas].[dbo].[vta_PagosPendientes] ORDER BY vta_PagosPendientes.endDate ASC`, req);
    console.log(pagos)
 
   let pagosPendientes = ''
@@ -177,6 +177,7 @@ router.get("/correoPagosCompletados",async(req, res) =>{
 
   let pagosCompletados = ''
    pagos.data.forEach((e) =>{
+    console.log(e)
     pagosCompletados +=  `<tr style="height: 25px;">
          <td  prewrap style="border: 1px solid rgb(4, 2, 4); border-top: 1px solid rgb(4, 2, 4)" >${e.title}</td>
          <td style="border: 1px solid rgb(4, 2, 4); border-top: 1px solid rgb(4, 2, 4)">${getDateString(e.startDate)}</td>
@@ -184,7 +185,7 @@ router.get("/correoPagosCompletados",async(req, res) =>{
          <td align="center" style="border: 1px solid rgb(4, 2, 4); border-top: 1px solid rgb(4, 2, 4)">${e.Priority}</td>
          <td align="center" style="border: 1px solid rgb(4, 2, 4); border-top: 1px solid rgb(4, 2, 4)">${e.StatusName}</td>
          <td style="border: 1px solid rgb(4, 2, 4); border-top: 1px solid rgb(4, 2, 4)">${e.notes}</td>
-         <td style="border: 1px solid rgb(4, 2, 4); border-top: 1px solid rgb(4, 2, 4)">${getDateString(e.completeStatusSate)}</td>
+         <td style="border: 1px solid rgb(4, 2, 4); border-top: 1px solid rgb(4, 2, 4)">${getDateString(e.completeStatusDate)}</td>
      </tr>`
  })
 
