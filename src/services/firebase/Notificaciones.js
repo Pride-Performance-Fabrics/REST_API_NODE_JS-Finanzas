@@ -21,6 +21,7 @@ const enviarNotificacion = async(req) =>{
         });
 
         const tokens = await getNotificacionesToken(usuarios, req);
+        console.log(tokens)
 
         const message = {
             data: {
@@ -29,7 +30,6 @@ const enviarNotificacion = async(req) =>{
             notification: {
                 title: title,
                 body: body,
-
             },
             priority: "high",
             tokens: tokens
@@ -54,9 +54,14 @@ const enviarNotificacion = async(req) =>{
 
 
 const getNotificacionesToken = async (usuarios, req) => {
-    const result = await querys.executeQuery(`SELECT * FROM Finanzas.dbo.Sessions WHERE idUser in (${usuarios.toString()}) AND NotificacionToken IS NOT NULL ORDER BY IdSession DESC`, req);
+    const result = await querys.executeQuery(`SELECT idUser, NotificacionToken FROM Finanzas.dbo.Sessions WHERE idUser in (${usuarios.toString()}) AND NotificacionToken IS NOT NULL ORDER BY IdSession DESC`, req);
     return result.data.map(x => x.NotificacionToken)
 }
+
+// const getUserNotificacionesToken = async (usuarios, req) => {
+//     const result = await querys.executeQuery(`SELECT * FROM Finanzas.dbo.Sessions WHERE idUser in (${usuarios.toString()}) AND NotificacionToken IS NOT NULL ORDER BY IdSession DESC`, req);
+//     return result.data.map(x => x.NotificacionToken)
+// }
 
 
 const guardarNotificacion = async (user, Title, Body, Data, Tipo, req, usuarios) => {
