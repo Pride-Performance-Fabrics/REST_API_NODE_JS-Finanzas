@@ -3,6 +3,8 @@ let messaging = require('firebase-admin/messaging');
 let serviceAccount = require("./serviceAccountKey.json");
 const querys = require('../../services/querys');
 
+const {setDateTimeSQL} = require('../fechasServices')
+
 
 admin.initializeApp({
     credential: admin.credential.cert(serviceAccount)
@@ -12,10 +14,10 @@ admin.initializeApp({
 const enviarNotificacion = async(req) =>{
 
     try {
-        const {usuarios, title, body, data, UserSend = null, priority ='high', Tipo = 1} = req.body
+        const {usuarios, title, body, data, UserSend = null, priority ='high', Tipo} = req.body
 
         usuarios.forEach(async (user) => {
-            guardarNotificacion(user, title, body, data, Tipo, req, UserSend);
+            guardarNotificacion(user, title, body, data, Tipo, req, usuarios);
         });
 
         const tokens = await getNotificacionesToken(usuarios, req);
@@ -38,6 +40,7 @@ const enviarNotificacion = async(req) =>{
         .then((response) => {
             // Response is a message ID string.
             console.log('Successfully sent message:', response);
+            return message
             // response.responses.map(x => console.log(x));
         })
         .catch((error) => {
@@ -56,11 +59,11 @@ const getNotificacionesToken = async (usuarios, req) => {
 }
 
 
-const guardarNotificacion = async (user, Title, Body, Data, Tipo, req, UserSend) => {
+const guardarNotificacion = async (user, Title, Body, Data, Tipo, req, usuarios) => {
     if (user !== 0) {
         const query = `
-    INSERT INTO ips.web.Notificaciones (IdUser, Fecha , Title, Body, Data, Leida, Entregada, Tipo, UserSend) 
-    VALUES (${user}, '${(new Date()).toLocaleDateString('US-EN')} ${(new Date()).toLocaleTimeString('US-EN')}'  , '${Title}', '${Body}', '${JSON.stringify(Data)}', 0, 0, ${Tipo}, ${UserSend})`;
+    INSERT INTO Finanzas.dbo.Notificaciones (IdUser, Fecha , Title, Body, Data, Leida, Entregada, Tipo, UserSend) 
+    VALUES (${user}, '${setDateTimeSQL(new Date)}'  , '${Title}', '${Body}', '${JSON.stringify(Data)}', 0, 0, ${Tipo}, ${usuarios})`;
         const result = await querys.executeQuery(query, req);
         // console.log(query);
     }
