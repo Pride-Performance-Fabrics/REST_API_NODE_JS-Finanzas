@@ -215,9 +215,15 @@ router.put("/", async (req, res) => {
 
 // *** MODIFICAR CONTRASENIA DE UN USUARIO *** 
 router.put("/password", async (req, res) => {
+  var PasswordDecrypted = cryptoJS.AES.decrypt(req.body.Password, "finazas2023").toString(cryptoJS.enc.Utf8);
+  console.log(PasswordDecrypted)
+  // var Passworddecrypted = cryptoJS.AES.decrypt(result.recordset[0].PasswordN, "finazas2023").toString(cryptoJS.enc.Utf8)
+  // console.log(Passworddecrypted)
   querys.executeQuery(
     `UPDATE Finanzas.dbo.Users 
-                        SET password = '${req.body.Password}'
+
+                        SET password = '${PasswordDecrypted}',
+                        PasswordN = '${req.body.Password}'
                         Where idUser = '${req.body.idUser}'`,
     req,
     res
