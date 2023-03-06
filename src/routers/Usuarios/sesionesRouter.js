@@ -11,7 +11,7 @@ router.get("/", async (req, res) => {
 
 // CAMBIA LA FECHA DE VENCIMIENTO EN CASO DE CIERRE DE SESSION VOLUNTARIA
 router.put("/:idUser", async (req, res) => {
-
+console.log("entro")
   const query = `UPDATE Finanzas.dbo.[Sessions]
   SET [Vencimiento] = GETDATE()
 WHERE idUser = ${req.params.idUser}

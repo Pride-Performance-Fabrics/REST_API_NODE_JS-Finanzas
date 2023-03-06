@@ -28,6 +28,14 @@ router.get('/Actividad', async(req, res) => {
 });
 
 
+//********************************** Estados IPS  **********************************/
+router.get('/CustomerIPS', async(req, res) => {
+    querys.executeQuery(`SELECT * FROM [Finanzas].[dbo].[StatusIPS] WHERE StatusCategory = 'Customer' ORDER BY IdStatus`, req, res);
+});
+
+
+
+
 
 
 module.exports = router;

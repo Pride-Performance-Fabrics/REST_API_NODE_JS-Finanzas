@@ -36,7 +36,7 @@ const verifyJWK = (req) => {
                 }
                 return res
             } else {
-                // console.log('******** TOKEN VALIDO **************')
+                // console.log(decoded)
                 const ahora = new Date();
                 const expire = new Date(decoded.expire)
                 // console.log((expire.getTime() - (tiempoRenovacion * 60 * 1000) )/1000 , ahora.getTime() /1000);
@@ -104,9 +104,9 @@ const setToken = async (user, res = false) => {
         const po = await data.connectToDatabase();
         if (res) {
             // CREA UNA NUEVA SESION
-            console.log(`bsssss,`, user);
+            // console.log(`bsssss,`, user);
             const token = getToken(user.idUser, user.Usuario, user.UserName, user.IdRol, user.Rol, user.IP, user.subscription, user.NotificacionToken);
-            // console.log(token);
+            // console.log(`njbhjvgfvcxs`,)
             const rest = await po.request()
                 .input('idUser', user.idUser)
                 .input('Token', token)
@@ -116,7 +116,7 @@ const setToken = async (user, res = false) => {
                 .input('Type', 'WEB')
                 .input('NotificacionToken', user.NotificacionToken)
                 .execute('web.cambiarTokenSession')
-                // console.log(`sdssssssss`,rest)
+               
                 .then((result) => {
                     res.send({
                         auth: true,

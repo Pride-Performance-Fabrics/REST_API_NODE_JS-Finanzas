@@ -33,11 +33,18 @@ const subCategoriaRouter = require('./src/routers/Finanzas/PlanCuentas/subCatego
 const accesosWebRouter = require('./src/routers/Accesos/accesosRouter');
 const schedulerRouter = require('./src/routers/Scheduler/Scheduler');
 const prioridadRouter = require('./src/routers/Generales/Prioridad/PrioridadRouter');
+const terminosRouter = require('./src/routers/Generales/Terminos/TerminosRouter');
+const tipoPagosRouter = require('./src/routers/Generales/TipoPago/TipoPagoRouter');
+const unidadesRouter = require('./src//routers/Generales/Unidades/UnidadesRouter');
 
 
 //***************** Rutas de Routers HERRAMIENTAS*****************/
 
 const notificacionesWebRouter = require('./src/routers/Herramientas/Notificaciones/notificacionesWebRouter');
+
+
+//***************** Rutas de Routers clientes*****************/
+const clientesRouter = require('./src/routers/Clientes/clientesRouter');
 
 const app = express();
 
@@ -100,6 +107,14 @@ app.use('/prioridad', prioridadRouter)
 //****************************** Herramientas******************************/
 
 app.use('/notificaciones', notificacionesWebRouter)
+
+//****************************** Clientes ******************************/
+app.use('/clientes', clientesRouter)
+
+//****************************** Generales ******************************/
+app.use('/generales/terminos', terminosRouter);
+app.use('/generales/tipoPagos', tipoPagosRouter);
+app.use('/generales/unidades', unidadesRouter)
 
 app.listen(process.env.PORT, async () => {
     console.log('EL SERVIDOR ESTA ESCUCHANDO EN EL PUERTO:', process.env.PORT);

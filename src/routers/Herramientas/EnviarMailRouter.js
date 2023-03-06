@@ -66,14 +66,14 @@ router.post("/",async(req, res) =>{
 
 router.get("/correoPagos",async(req, res) =>{
     let correos=[]
-    // const usuarios= await querys.executeQuery("SELECT idUser, Usuario, UserName, IdRol, Mail FROM Finanzas.dbo.Users WHERE IdRol in (2) AND Status = 1", req);
-   const usuarios= await querys.executeQuery("SELECT idUser, Usuario, UserName, IdRol, Mail FROM Finanzas.dbo.Users WHERE idUser in (1) AND Status = 1", req);
+    const usuarios= await querys.executeQuery("SELECT idUser, Usuario, UserName, IdRol, Mail FROM Finanzas.dbo.Users WHERE IdRol in (2) AND Status = 1", req);
+//    const usuarios= await querys.executeQuery("SELECT idUser, Usuario, UserName, IdRol, Mail FROM Finanzas.dbo.Users WHERE idUser in (1) AND Status = 1", req);
     usuarios.data.map((e)=>{
         correos.push(e.Mail)
     })
 
-    // let pagosPendientes = []
-    const pagos = await querys.executeQuery(`SELECT * FROM [Finanzas].[dbo].[vta_PagosPendientes] ORDER BY vta_PagosPendientes.endDate ASC`, req);
+   console.log(correos)
+   const pagos = await querys.executeQuery(`SELECT * FROM [Finanzas].[dbo].[vta_PagosPendientes] ORDER BY vta_PagosPendientes.endDate ASC`, req);
    console.log(pagos)
 
   let pagosPendientes = ''
