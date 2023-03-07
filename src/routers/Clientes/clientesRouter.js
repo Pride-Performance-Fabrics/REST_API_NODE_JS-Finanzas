@@ -159,7 +159,7 @@ router.post('/IUCustomer', async (req, res) => {
 
 
 
-// //******************** ACTUALIZAR EL ESTADO DE LOS CHECK IsShipTO & IsBillTo ****/
+// //******************** ACTUALIZAR EL ESTADO DE LOS CHECK IsShipTO & IsBillTo y BlockFinanzas && IsContado****/
 
 router.put("/checkCustomer", async (req, res) => {
     switch (req.body.Valor) {
@@ -283,25 +283,39 @@ router.put("/checkCustomerDetails", async (req, res) => {
     switch (req.body.Valor) {
         case 1:
             const resp1 = await querys.executeQuery(`UPDATE Finanzas.dbo.CustomerDetails SET IsBuyer = '${req.body.Activo}' WHERE IdDCustomer = ${req.body.IdDCustomer}`, req);
-            querys.executeQuery(`SELECT * FROM [Finanzas].[dbo].[vta_CustomerDetails]`, req, res);
+            querys.executeQuery(`SELECT * FROM [Finanzas].[dbo].[vta_CustomerDetails]
+            WHERE [vta_CustomerDetails].IdCustomer = ${req.body.IdCustomer}`, req, res);
             break;
         case 2:
             const resp2 = await querys.executeQuery(`UPDATE Finanzas.dbo.CustomerDetails SET IsShipTo = '${req.body.Activo}' WHERE IdDCustomer = ${req.body.IdDCustomer}`, req);
-            querys.executeQuery(`SELECT * FROM [Finanzas].[dbo].[vta_CustomerDetails]`, req, res);
+            querys.executeQuery(`SELECT * FROM [Finanzas].[dbo].[vta_CustomerDetails]
+            WHERE [vta_CustomerDetails].IdCustomer = ${req.body.IdCustomer}`, req, res);
             break;
 
         case 3:
             const resp3 = await querys.executeQuery(`UPDATE Finanzas.dbo.CustomerDetails SET IsBillTo= '${req.body.Activo}' WHERE IdDCustomer = ${req.body.IdDCustomer}`, req);
-            querys.executeQuery(`SELECT * FROM [Finanzas].[dbo].[vta_CustomerDetails]`, req, res);
+            querys.executeQuery(`SELECT * FROM [Finanzas].[dbo].[vta_CustomerDetails]
+            WHERE [vta_CustomerDetails].IdCustomer = ${req.body.IdCustomer}`, req, res);
 
             break;
         default:
             const resp4 = await querys.executeQuery(`UPDATE Finanzas.dbo.CustomerDetails SET IsBillTo= '${req.body.Activo}' WHERE IdDCustomer = ${req.body.IdDCustomer}`, req);
-            querys.executeQuery(`SELECT * FROM [Finanzas].[dbo].[vta_CustomerDetails]`, req, res);
+            querys.executeQuery(`SELECT * FROM [Finanzas].[dbo].[vta_CustomerDetails]
+            WHERE [vta_CustomerDetails].IdCustomer = ${req.body.IdCustomer}`, req, res);
             break;
     }
 
 });
+
+
+router.put('/cambiarEstadoCustomerDetails', async(req,res) =>{
+    const resp = await querys.executeQuery(`UPDATE Finanzas.dbo.CustomerDetails SET IdStatus = '${req.body.IdStatus}' WHERE IdDCustomer = ${req.body.IdDCustomer}`, req);
+    querys.executeQuery(`SELECT * FROM [Finanzas].[dbo].[vta_CustomerDetails]
+    WHERE [vta_CustomerDetails].IdCustomer = ${req.body.IdCustomer}`, req, res);
+})
+
+
+
 
 
 
