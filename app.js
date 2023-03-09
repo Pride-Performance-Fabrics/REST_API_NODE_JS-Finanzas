@@ -46,6 +46,12 @@ const notificacionesWebRouter = require('./src/routers/Herramientas/Notificacion
 //***************** Rutas de Routers clientes*****************/
 const clientesRouter = require('./src/routers/Clientes/clientesRouter');
 
+
+
+//***************** Rutas de Routers Ventas*****************/
+
+const facturasRouter = require('./src/routers/Ventas/FacturasRouter');
+
 const app = express();
 
 app.use(cors({ origin: true, credentials: false }));
@@ -110,6 +116,9 @@ app.use('/notificaciones', notificacionesWebRouter)
 
 //****************************** Clientes ******************************/
 app.use('/clientes', clientesRouter)
+
+//****************************** Ventas ******************************/
+app.use('/ventas/facturas', facturasRouter)
 
 //****************************** Generales ******************************/
 app.use('/generales/terminos', terminosRouter);
