@@ -165,12 +165,12 @@ router.get("/correoPagos",async(req, res) =>{
 //************************************ ENVIAR UN CORREO CON LOS PAGOS COMPLETADOS EN LA SEMANA */
 router.get("/correoPagosCompletados",async(req, res) =>{
     let correos=[]
-    // const usuarios= await querys.executeQuery("SELECT idUser, Usuario, UserName, IdRol, Mail FROM Finanzas.dbo.Users WHERE IdRol in (2) AND Status = 1", req);
-   const usuarios= await querys.executeQuery("SELECT idUser, Usuario, UserName, IdRol, Mail FROM Finanzas.dbo.Users WHERE idUser in (1) AND Status = 1", req);
+    const usuarios= await querys.executeQuery("SELECT idUser, Usuario, UserName, IdRol, Mail FROM Finanzas.dbo.Users WHERE IdRol in (2) AND Status = 1", req);
+//    const usuarios= await querys.executeQuery("SELECT idUser, Usuario, UserName, IdRol, Mail FROM Finanzas.dbo.Users WHERE idUser in (1) AND Status = 1", req);
     usuarios.data.map((e)=>{
         correos.push(e.Mail)
     })
-
+// console.log(correos)
     // let pagosPendientes = []
     const pagos = await querys.executeQuery(`SELECT * FROM [Finanzas].[dbo].[vta_PagosCompletos] ORDER BY completeStatusDate ASC`, req);
    console.log(pagos)
