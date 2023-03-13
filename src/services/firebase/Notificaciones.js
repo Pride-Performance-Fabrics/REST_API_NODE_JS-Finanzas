@@ -66,9 +66,14 @@ const getNotificacionesToken = async (usuarios, req) => {
 
 const guardarNotificacion = async (user, Title, Body, Data, Tipo, req, usuarios) => {
     if (user !== 0) {
+    
+    usuarios.forEach(u => {
+        console.log(u)
+    });
         const query = `
-    INSERT INTO Finanzas.dbo.Notificaciones (IdUser, Fecha , Title, Body, Data, Leida, Entregada, Tipo, UserSend) 
-    VALUES (${user}, '${setDateTimeSQL(new Date)}'  , '${Title}', '${Body}', '${JSON.stringify(Data)}', 0, 0, ${Tipo}, ${usuarios})`;
+    INSERT INTO Finanzas.dbo.Notificaciones (IdUser, Fecha , Title, Body, Data,  Tipo, UserSend) 
+    VALUES (${user}, '${setDateTimeSQL(new Date)}'  , '${Title}', '${Body}', '${JSON.stringify(Data)}', ${Tipo}, '${usuarios}')`;
+    console.log({query})
         const result = await querys.executeQuery(query, req);
         // console.log(query);
     }
