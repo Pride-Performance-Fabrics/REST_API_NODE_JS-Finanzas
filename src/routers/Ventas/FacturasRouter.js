@@ -4,7 +4,7 @@ const querys = require('../../services/querys');
 
 
 router.get('/', async(req, res) =>{
-    querys.executeQuery(`SELECT * FROM [Finanzas].[dbo].[vta_InvoicesFinanzas] ORDER BY IdInvoice ASC`, req, res)
+    querys.executeQuery(`SELECT * FROM [Finanzas].[dbo].[vta_InvoicesFinanzas] ORDER BY NumberInvoice ASC`, req, res)
 });
 
 router.get('/InvoicesDetails/:idFactura', async(req,res) =>{
